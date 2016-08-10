@@ -17,13 +17,13 @@ void step(FullVec **U);
 double **divCalc(FullVec **U);
 void DIV(FullVec **U, int st);
 
-
 int main(int argc, char **argv)
 {{
 	cout << "Space: r0=" << RI << ", rf=" << RF << "; z0=" << ZI << ", zf=" << ZF << ';' << endl;
 	cout << "Spatial steps: dr=" << DR << ", dz=" << DZ << ';' << endl;
 	cout << "Grid: Nr=" << NR << ", Nz=" << NZ << ';' << endl; 
 	cout << "Time: Tfin=" << TFIN << ", dT=" << DT << "; Steps' number: " << ST << ';' << endl;
+	cout << "Mn=" << fixed << scientific << Mnuclon << ';' << endl;
 	cout << "GO!" << endl;
 
 	double gR[NR+2], gZ[NZ+2];
@@ -45,7 +45,7 @@ int main(int argc, char **argv)
 	//DIV(U,st);
 
 
-	while(t<TFIN)
+	while(t>TFIN)
 	{
 		t += DT; st++;
 		if(st%CVAR==0) cout << "time: " << t << "; step: " << st << ';' << endl;

@@ -1,18 +1,18 @@
 clear
 
-nbF = 10;
+nbF = 8;
 
 x_ini=0.0;
 % x_fin=6.283185307179586;
 % dx=0.049087385212340;
 x_fin=5;
-dx=0.05;    
+dx=0.1;    
 NX=int16((x_fin-x_ini)/dx)+1;
 y_ini=0.0;
 % y_fin=6.283185307179586;
 % dy=0.049087385212340;
 y_fin=40;
-dy=0.05;
+dy=0.1;
 NY=int16((y_fin-y_ini)/dy)+1;
 t_fin=1;
 dt=0.0001;
@@ -24,16 +24,14 @@ clear x_ini x_fin dx y_ini y_fin dy t_fin dt
 
 
 type=cell(nbF,1);
-type{1} = 'Ro';
-type{2} = 'Vx';
-type{3} = 'Vy';
+type{1} = 'n';
+type{2} = 'Vr';
+type{3} = 'Vphi';
 type{4} = 'Vz';
-type{5} = 'Bx';
-type{6} = 'By';
+type{5} = 'Br';
+type{6} = 'Bphi';
 type{7} = 'Bz';
-type{8} = 'E';
-type{9} = 'P';
-type{10} = 'Ptot';
+type{8} = 'T';
 res='results/';
 
 directory=cell(nbF,1);

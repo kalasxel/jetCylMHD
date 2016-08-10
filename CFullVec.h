@@ -20,10 +20,9 @@ public:
 
 	void setVec(double t_rho, double t_u, double t_v, double t_w, 
 			double t_B, double t_H, double t_D, double t_e);
-	void setVecP(double t_rho, double t_u, double t_v, double t_w, 
-			double t_B, double t_H, double t_D, double t_P);
+	void setVecT(double nn, double t_u, double t_v, double t_w,
+				double t_B, double t_H, double t_D, double T);
 
-	double EfromP(double P);
 
 
 	FullVec operator+(FullVec &AAA);
@@ -32,10 +31,9 @@ public:
 
 
 	double returnVec(int type);
+	double returnVecT(int type);
 
 	void slimU(); // to get the physical vector
 	void fatU();
-	double PFat();
-	double PtotFat();
 
 };

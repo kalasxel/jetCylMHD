@@ -1,4 +1,5 @@
 #include <iostream> 
+#include <cmath>
 
 #include "Param.h"
 #include "CFullVec.h"
@@ -61,20 +62,18 @@ void FullVec::setVec(double t_rho, double t_u, double t_v, double t_w,
 
 }}
 
-double FullVec::EfromP(double P)
+void FullVec::setVecT(double nn, double t_u, double t_v, double t_w,
+				double t_B, double t_H, double t_D, double t_T)
 {{
-	return P/(GAMMA-1) + rho*Vsq()/2 + Bsq()/2;
-}}
+	t_T=t_T*eVtoErg; // from eV to erg
+	t_B = t_B/sqrt(4*PI);
+	t_H = t_H/sqrt(4*PI);
+	t_D = t_D/sqrt(4*PI);
 
-void FullVec::setVecP(double t_rho, double t_u, double t_v, double t_w, 
-			double t_B, double t_H, double t_D, double t_P)
-{{
-	rho = t_rho;
-	u = t_u; v = t_v; w = t_w;
+	rho = nn*Mnuclon;
+	u = rho*t_u; v = rho*t_v; w = rho*t_w; // to make U
 	B = t_B; H = t_H; D = t_D;
-	e = t_P/(GAMMA-1) + rho*( t_u*t_u+t_v*t_v+t_w*t_w )/2 + ( t_B*t_B+t_H*t_H+t_D*t_D )/2;
-	u = t_rho*t_u; v = t_rho*t_v; w = t_rho*t_w; // to make U
-
+	e = nn*t_T/(GAMMA-1) + rho*( t_u*t_u+t_v*t_v+t_w*t_w )/2 + ( t_B*t_B+t_H*t_H+t_D*t_D )/2;
 }}
 
 
@@ -131,13 +130,12 @@ FullVec FullVec::operator*(double t)
 }}
 
 
-
-double FullVec::returnVec(int type)
+double FullVec::returnVecT(int type)
 {{
 	switch(type)
 	{
 		case 0:
-			return rho; break;
+			return rho/Mnuclon; break;
 		case 1:
 			return u/rho; break;
 		case 2:
@@ -145,17 +143,13 @@ double FullVec::returnVec(int type)
 		case 3:
 			return w/rho; break;
 		case 4:
-			return B; break;
+			return B*sqrt(4*PI); break;
 		case 5:
-			return H; break;
+			return H*sqrt(4*PI); break;
 		case 6:
-			return D; break;
+			return D*sqrt(4*PI); break;
 		case 7:
-			return e; break;
-		case 8:
-			return PFat(); break;
-		case 9:
-			return PtotFat(); break;
+			return (GAMMA-1)/(rho/Mnuclon)*( e - Vsq()/(2*rho) - Bsq()/2 )/eVtoErg ; break;
 		default:
 			cout << "AN ERROR IN PRINT" << endl; 
 			return 0;
@@ -163,7 +157,7 @@ double FullVec::returnVec(int type)
 }}
 
 
-// to get the physical vector instead the U ( U contains rho*u etc. )
+// to get the physical vector instead of the U ( U contains rho*u etc. )
 void FullVec::slimU()
 {{
 	u = u/rho;
@@ -176,14 +170,4 @@ void FullVec::fatU()
 	u = u*rho;
 	v = v*rho;
 	w = w*rho;
-}}
-
-//2-3:
-double FullVec::PFat()
-{{
-	return (GAMMA-1)*( e - Vsq()/(2*rho) - Bsq()/2 );
-}}
-double FullVec::PtotFat()
-{{
-	return PFat() + Bsq()/2;
 }}

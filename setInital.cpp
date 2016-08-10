@@ -12,7 +12,6 @@ double setGridR(double gR[NR+2])
 	for(int n=0; n<NR+2; n++)
 	{
 		gR[n] = (n-1)*DR;
-		//std::cout << n << ' ' << gR[n] << std::endl; 
 	}
 }}
 double setGridZ(double gZ[NZ+2])
@@ -20,7 +19,6 @@ double setGridZ(double gZ[NZ+2])
 	for(int m=0; m<NZ+2; m++)
 	{
 		gZ[m] = (m-1)*DZ;
-		//cout << gZ[m] << endl;
 	}
 }}
 
@@ -36,8 +34,8 @@ int NfromZ(double Z)
 
 
 	double differ(10);
-	double Rho_in(7e-6), Vx_in(0), Vy_in(0), Vz_in(5e6), Bx_in(0), By_in(15e2), Bz_in(0), P_in(2e6);
-	double Rho_out(7e-7), Vx_out(0), Vy_out(0), Vz_out(0), Bx_out(0), By_out(0), Bz_out(0), P_out(2e6);
+	double nn_in(2e17), Vx_in(0), Vy_in(0), Vz_in(5e6), Bx_in(0), By_in(15e2), Bz_in(0), T_in(5);
+	double nn_out(7e16), Vx_out(0), Vy_out(0), Vz_out(0), Bx_out(0), By_out(0), Bz_out(0), T_out(1);
 	double thick=0.3*(RF-RI);
 
 	int njm(0), njp(njm + NfromR(thick));
@@ -54,7 +52,7 @@ void setInital(FullVec **A)
 	{
 		for( n=0; n<njm; n++)
 		{
-			A[n][m].setVecP(Rho_out, Vx_out,Vy_out,Vy_out, Bx_out,By_out,Bz_out, P_out);
+			A[n][m].setVecT(nn_out, Vx_out,Vy_out,Vy_out, Bx_out,By_out,Bz_out, T_out);
 		}
 
 
@@ -64,7 +62,7 @@ void setInital(FullVec **A)
 			setGridR(gR);
 			Bp = (By_in/thick)*gR[n];
 
-			A[n][m].setVecP(Rho_in, Vx_in,Vy_in,Vz_in, Bx_in,Bp,Bz_in, P_in);
+			A[n][m].setVecT(nn_in, Vx_in,Vy_in,Vz_in, Bx_in,Bp,Bz_in, T_in);
 		}
 
 
@@ -74,7 +72,7 @@ void setInital(FullVec **A)
 			setGridR(gR);
 			Bp = (By_in*thick)/gR[n];
 
-			A[n][m].setVecP(Rho_out, Vx_out,Vy_out,Vy_out, Bx_out,Bp,Bz_out, P_out);
+			A[n][m].setVecT(nn_out, Vx_out,Vy_out,Vy_out, Bx_out,Bp,Bz_out, T_out);
 		}
 
 
@@ -83,15 +81,15 @@ void setInital(FullVec **A)
 	{
 		for( n=0; n<njm; n++)
 		{
-			A[n][m].setVecP(Rho_out, Vx_out,Vy_out,Vy_out, Bx_out,By_out,Bz_out, P_out);
+			A[n][m].setVecT(nn_out, Vx_out,Vy_out,Vy_out, Bx_out,By_out,Bz_out, T_out);
 		}
 		for( n; n<njp; n++)
 		{
-			A[n][m].setVecP(Rho_out, Vx_out,Vy_out,Vy_out, Bx_out,By_out,Bz_out, P_out);
+			A[n][m].setVecT(nn_out, Vx_out,Vy_out,Vy_out, Bx_out,By_out,Bz_out, T_out);
 		}
 		for( n; n<NR+1; n++)
 		{
-			A[n][m].setVecP(Rho_out, Vx_out,Vy_out,Vy_out, Bx_out,By_out,Bz_out, P_out);
+			A[n][m].setVecT(nn_out, Vx_out,Vy_out,Vy_out, Bx_out,By_out,Bz_out, T_out);
 		}
 	}
 
@@ -99,15 +97,15 @@ void setInital(FullVec **A)
 	{
 		for( n=0; n<njm; n++)
 		{
-			A[n][m].setVecP(Rho_out, Vx_out,Vy_out,Vy_out, Bx_out,By_out,Bz_out, P_out);
+			A[n][m].setVecT(nn_out, Vx_out,Vy_out,Vy_out, Bx_out,By_out,Bz_out, T_out);
 		}
 		for( n; n<njp; n++)
 		{
-			A[n][m].setVecP(Rho_out, Vx_out,Vy_out,Vy_out, Bx_out,By_out,Bz_out, P_out);
+			A[n][m].setVecT(nn_out, Vx_out,Vy_out,Vy_out, Bx_out,By_out,Bz_out, T_out);
 		}
 		for( n; n<NR+1; n++)
 		{
-			A[n][m].setVecP(Rho_out, Vx_out,Vy_out,Vy_out, Bx_out,By_out,Bz_out, P_out);
+			A[n][m].setVecT(nn_out, Vx_out,Vy_out,Vy_out, Bx_out,By_out,Bz_out, T_out);
 		}
 	}
 
@@ -119,7 +117,7 @@ void setInital(FullVec **A)
 	{
 		for(int m=0; m<NZ+2; m++)
 		{
-			A[n][m].setVecP(Rho_out, Vx_out,Vy_out,Vy_out, Bx_out,By_out,Bz_out, P_out);
+			A[n][m].setVecT(nn_out, Vx_out,Vy_out,Vy_out, Bx_out,By_out,Bz_out, T_out);
 
 			//A[n][m].B = gR[n]*gZ[m];
 			//A[n][m].D = -gZ[m]*gZ[m];
@@ -139,7 +137,7 @@ void setBound(FullVec **U)
 {{
 	FullVec R1, R2, Z1, Z2;
 
-	R1.setVecP(Rho_out, Vx_out,Vy_out,Vy_out, Bx_out,By_out,Bz_out, P_out);
+	R1.setVecT(nn_out, Vx_out,Vy_out,Vy_out, Bx_out,By_out,Bz_out, T_out);
 	R2=R1; Z2=R1; Z1=R1;
 
 	for(int n=0; n<NR+2; n++)

@@ -11,18 +11,16 @@ using namespace std;
 #define GRIDR "results/GRIDR.dat"
 #define GRIDZ "results/GRIDZ.dat"
 const char *NAMES[] = 
-	{"results/0_Ro/Ro_%d.dat",
-	"results/1_Vx/Vx_%d.dat",
-	"results/2_Vy/Vy_%d.dat",
+	{"results/0_n/n_%d.dat",
+	"results/1_Vr/Vr_%d.dat",
+	"results/2_Vphi/Vphi_%d.dat",
 	"results/3_Vz/Vz_%d.dat",
-	"results/4_Bx/Bx_%d.dat",
-	"results/5_By/By_%d.dat",
+	"results/4_Br/Br_%d.dat",
+	"results/5_Bphi/Bphi_%d.dat",
 	"results/6_Bz/Bz_%d.dat",
-	"results/7_E/E_%d.dat",
-	"results/8_P/P_%d.dat",
-	"results/9_Ptot/Ptot_%d.dat"};
+	"results/7_T/T_%d.dat",};
 #define TIME "results/TIME.dat"
-#define DIV "results/10_div/Div_%d"
+#define DIV "results/8_div/Div_%d"
 
 
 
@@ -33,7 +31,7 @@ void outputLayer(FullVec **U, float t, int st)
 	times << fixed << setprecision(4) << t << endl;
 	times.close();
 
-	for(int i=0; i<10; i++)
+	for(int i=0; i<8; i++)
 	{
 		char fullName[30];
 		sprintf(fullName,NAMES[i], st);
@@ -45,7 +43,7 @@ void outputLayer(FullVec **U, float t, int st)
 		{
 			for(int n=1; n<NR+1; n++)
 			{
-				flow << fixed << setprecision(wide) << showpos << U[n][m].returnVec	(i) << "  ";
+				flow << fixed << scientific << setprecision(wide) << showpos << U[n][m].returnVecT(i) << "  ";
 			}
 			flow << endl;
 		}

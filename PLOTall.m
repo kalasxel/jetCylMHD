@@ -4,8 +4,8 @@ function PLOTall = PLOTall(type1,type2,type3,type4,gridX,gridY,RESULT,Time)
     set(0,'DefaultAxesFontSize',18,'DefaultAxesFontName','Times New Roman');
     [x,y] = meshgrid(gridX,gridY);
 
-    name = {'Rho', 'Vx', 'Vy', 'Vz', 'Bx', 'By', 'Bz', 'Ptot', 'P', 'e'};
-    value = {'gm/cm^3', 'cm/c', 'cm/c', 'cm/c', 'Gs', 'Gs', 'Gs', 'dyn/cm^2', 'dyn/cm^2', 'dyn/cm^2'};
+    name = {'n', 'Vr', 'Vphi', 'Vz', 'Br', 'Bphi', 'Bz', 'T'};
+    value = {'1/cm^3', 'cm/c', 'cm/c', 'cm/c', 'Gs', 'Gs', 'Gs', 'eV'};
 
     screenSize = get(0,'ScreenSize');     
     figure('ToolBar','none' , 'MenuBar','none')%, 'Position',screenSize);    
@@ -69,8 +69,8 @@ function PLOTall = PLOTall(type1,type2,type3,type4,gridX,gridY,RESULT,Time)
         
         M(k)=getframe(gcf);
 
-         pause(0.01)
-%         pause()
+%          pause(0.01)
+        pause()
 
     end
 movie2avi(M,'test.avi');
