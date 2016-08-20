@@ -64,22 +64,6 @@ int main(int argc, char **argv)
 		}
 	}
 
-	//step(U);
-
-/*
-	FullVec J,I, RRR, tJ, tI;
-	Hlld flow;
-
-	J.setVec(0.1,-0.1,2,4,5,2,3,0.4); I.setVec(2,6,7,8,1,2,3,0.4);
-	tJ=J; tI=I;
-	//J.slimU(); printVec(J);
-	printVec(J,I);
-	RRR = flow.getFlowHLLD(J,I);
-	printVec(RRR,tJ);
-*/
-
-
-
 
 	for(int i=0; i<NR+2; i++) delete [] U[i];
 	delete [] U;
@@ -150,12 +134,6 @@ void step(FullVec **U)
 
 			L=U[n-1][m]; R=U[n][m];
 			Fr[n][m] = flow.getFlowHLLD(L,R);
-/*
-			#ifdef VISCOSITY
-				Fr[n][m].w -= vis* ( R.w/R.rho - L.w/L.rho )/DR;
-			#endif
-*/
-
 
 			L=U[n][m-1]; R=U[n][m];
 			L=TurnIn(L); R=TurnIn(R);
@@ -163,11 +141,6 @@ void step(FullVec **U)
 			TMP = flow.getFlowHLLD(L,R);
 			TMP = TurnOut(TMP);
 			Fz[n][m] = TurnOut(TMP);
-/*
-			#ifdef VISCOSITY
-				Fz[n][m].w -= 2*vis* ( R.w/R.rho - L.w/L.rho )/DZ;
-			#endif
-*/
 		}
 	}
 
