@@ -15,8 +15,6 @@ FullVec TurnIn(FullVec &AAA);
 FullVec TurnOut(FullVec &AAA);
 void step(FullVec **U);
 
-double **divCalc(FullVec **U);
-void DIV(FullVec **U, int st);
 
 int main(int argc, char **argv)
 {{
@@ -209,48 +207,3 @@ void step(FullVec **U)
 	delete [] Fz;
 
 }}
-
-
-
-double **divCalc(FullVec **U)
-{{
-	double **div = new double * [NR+2];
-	for(int n=0; n<NR+2; n++) div[n] = new double [NZ+2];
-
-	double gR[NR+2]; setGridR(gR);
-
-
-	for(int m=1; m<NZ+1; m++)
-	{
-		#ifdef CARTESIAN
-			for(int n=1; n<NR+1; n++) div[n][m] = ( U[n+1][m].B - U[n-1][m].B )/(2*DR);
-		#else
-			for(int n=1; n<NR+1; n++) div[n][m] = ( U[n+1][m].B*gR[n+1] - U[n-1][m].B*gR[n-1] )/(2*DR)/gR[n];
-		#endif
-	}
-
-	for(int n=1; n<NR+1; n++)
-	{
-		for(int m=1; m<NZ+1; m++) div[n][m] += ( U[n][m+1].D - U[n][m-1].D )/(2*DZ);
-	}
-
-	for(int m=1; m<NZ+1; m++) div[1][m] = 0;
-
-	return div;
-
-	for(int n=0; n<NR+2; n++) delete [] div[n];
-	delete [] div;
-}}
-
-
-void DIV(FullVec **U, int st)
-{
-	double **divs = new double * [NR+2];
-	for(int n=0; n<NR+2; n++) divs[n] = new double [NZ+2];
-
-	divs = divCalc(U); 
-	outputLayer(divs,st);
-
-	for(int n=0; n<NR+2; n++) delete [] divs[n];
-	delete [] divs;	
-}
