@@ -34,7 +34,7 @@ int NfromZ(double Z)
 
 
 	double differ(10);
-	double nn_in(2e17), Vx_in(0), Vy_in(0), Vz_in(5e6), Bx_in(0), By_in(15e2), Bz_in(0), T_in(5);
+	double nn_in(2e17), Vx_in(0), Vy_in(0), Vz_in(5e6), Bx_in(0), By_in(20e2), Bz_in(0), T_in(5);
 	double nn_out(7e16), Vx_out(0), Vy_out(0), Vz_out(0), Bx_out(0), By_out(0), Bz_out(0), T_out(1);
 	double thick=0.3*(RF-RI);
 

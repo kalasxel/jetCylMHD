@@ -21,8 +21,8 @@ const int NR = static_cast<int>( (RF-RI)/DR ) + 1;
 #define DZ 1e-1
 const int NZ = static_cast<int>( (ZF-ZI)/DZ ) + 1; 
 
-#define DT 2e-9 // "make clear" after each changind of step
-#define TFIN 0.1e-6
+#define DT 1e-8 // "make clear" after each changind of step
+#define TFIN 10e-6
 const int ST = static_cast<int>( TFIN/DT );
 const int CVAR = static_cast<int>( ST/10 );
 

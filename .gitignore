@@ -29,7 +29,8 @@
 *.app
 
 # My own staff
-qqq
+ppp
 results
 *.avi
 .fuse_hidden00000ca400000002
+*.mat

@@ -1,6 +1,7 @@
 #include <iostream> 
 #include <cmath>
 #include <iomanip>
+#include <omp.h>
 
 #include "Param.h"
 #include "CFullVec.h"
@@ -26,6 +27,9 @@ int main(int argc, char **argv)
 	cout << "Mn=" << fixed << scientific << Mnuclon << ';' << endl;
 	cout << "GO!" << endl;
 
+	omp_set_dynamic(0);      // запретить библиотеке openmp менять число потоков во время исполнения
+	omp_set_num_threads(4); // установить число потоков
+
 	double gR[NR+2], gZ[NZ+2];
 	setGridR(gR); setGridZ(gZ);
 	outputGrid(gR,gZ);
@@ -45,7 +49,7 @@ int main(int argc, char **argv)
 	//DIV(U,st);
 
 
-	while(t>TFIN)
+	while(t<TFIN)
 	{
 		t += DT; st++;
 		if(st%CVAR==0) cout << "time: " << t << "; step: " << st << ';' << endl;
@@ -126,6 +130,7 @@ FullVec TurnOut(FullVec &AAA)
 
 
 //#define CARTESIAN  // FOR CARTESIAN COORDINATES
+#define VISCOSITY
 
 void step(FullVec **U)
 {{
@@ -134,16 +139,23 @@ void step(FullVec **U)
 	FullVec **Fz = new FullVec * [NR+1];
 	for(int n=0; n<NR+1; n++) Fz[n] = new FullVec [NZ+1];
 
-
-	for(int m=1; m<=NZ; m++)
+	int n(0), m(0);
+#pragma omp parallel for shared(U,Fr,Fz) private(n,m)
+	for(m=1; m<=NZ; m++)
 	{
-		for(int n=1; n<=NR; n++)
+		for(n=1; n<=NR; n++)
 		{
 			FullVec L, R, TMP;
 			Hlld flow;
 
 			L=U[n-1][m]; R=U[n][m];
 			Fr[n][m] = flow.getFlowHLLD(L,R);
+/*
+			#ifdef VISCOSITY
+				Fr[n][m].w -= vis* ( R.w/R.rho - L.w/L.rho )/DR;
+			#endif
+*/
+
 
 			L=U[n][m-1]; R=U[n][m];
 			L=TurnIn(L); R=TurnIn(R);
@@ -151,8 +163,28 @@ void step(FullVec **U)
 			TMP = flow.getFlowHLLD(L,R);
 			TMP = TurnOut(TMP);
 			Fz[n][m] = TurnOut(TMP);
+/*
+			#ifdef VISCOSITY
+				Fz[n][m].w -= 2*vis* ( R.w/R.rho - L.w/L.rho )/DZ;
+			#endif
+*/
 		}
 	}
+
+	#ifdef VISCOSITY
+	double vis(0.005*0);
+		for(int n=2; n<NR+1; n++)
+		{
+			for(int m=1; m<NZ+1; m++)
+			{
+				Fr[n][m].w -= vis*( U[n][m].w/U[n][m].rho - U[n][m-1].w/U[n][m-1].rho )/DR;
+				Fz[n][m].w -= 2*vis*( U[n][m].w/U[n][m].rho - U[n][m-1].w/U[n][m-1].rho )/DZ;
+			}
+		}
+
+	#endif
+
+
 
 	double gR[NR+2]; setGridR(gR);
 

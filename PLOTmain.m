@@ -2,4 +2,4 @@
 
 PLOTall(1,4,6,8,gridX,gridY,RESULT,Time);
 %  PLOTsingle(1,gridX,gridY,RESULT,Time); 
-% PLOTcompare(1,1,gridX,gridY,RESULT,RESULTmf,Time);
+% PLOTcompare(1,1,gridX,gridY,RESULT,RESILTvi,Time);

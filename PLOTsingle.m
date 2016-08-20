@@ -31,11 +31,11 @@ function PLOTsingle = PLOTsingle(type,gridX,gridY,RESULT,Time)
 %         frame = getframe;
 %    writeVideo(writerObj,frame);
     
-%         pause(0.00001)
-          pause()
+        pause(0.00001)
+%           pause()
     
     end
 
 %     movie2avi(M,'test.avi');
-close(writerObj);
+% close(writerObj);
 end

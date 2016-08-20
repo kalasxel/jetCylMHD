@@ -4,7 +4,7 @@ CODFIL = Main.cpp CFullVec.cpp CHlld.cpp outputPark.cpp setInital.cpp
 TRANS = Main.o CFullVec.o CHlld.o outputPark.o setInital.cpp
 INCLUD = Param.h CFullVec.h CHlld.h outputPark.h
 
-CC = g++
+CC = g++ -fopenmp
 KEY = -c
 
 
