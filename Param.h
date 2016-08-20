@@ -7,6 +7,8 @@
 #define GAMMA 1.66666666666666666666666667
 #define Mnuclon 3.3211e-23
 
+#define VISCISITY1 0.001
+
 template <class XXX> int SIGNUM(XXX val){ return val>0 ? 1 : 0; }
 //#define SIGNUM(Value) ((Value) < 0 ? (-1) : !!(Value))
 
@@ -25,6 +27,7 @@ const int NZ = static_cast<int>( (ZF-ZI)/DZ ) + 1;
 #define TFIN 10e-6
 const int ST = static_cast<int>( TFIN/DT );
 const int CVAR = static_cast<int>( ST/10 );
+
 
 
 #define wide 3

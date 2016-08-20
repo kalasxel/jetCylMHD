@@ -44,7 +44,6 @@ int main(int argc, char **argv)
 	cout << "time: " << t << "; step: " << st << ';' << endl;
 
 	outputLayer(U,t,nbF);
-	//DIV(U,st);
 
 
 	while(t<TFIN)
@@ -58,7 +57,6 @@ int main(int argc, char **argv)
 		{
 			nbF++;
 			outputLayer(U,t,nbF);
-			//DIV(U,nbF);
 		}
 	}
 
@@ -143,13 +141,12 @@ void step(FullVec **U)
 	}
 
 	#ifdef VISCOSITY
-	double vis(0.005*0);
 		for(int n=2; n<NR+1; n++)
 		{
 			for(int m=1; m<NZ+1; m++)
 			{
-				Fr[n][m].w -= vis*( U[n][m].w/U[n][m].rho - U[n][m-1].w/U[n][m-1].rho )/DR;
-				Fz[n][m].w -= 2*vis*( U[n][m].w/U[n][m].rho - U[n][m-1].w/U[n][m-1].rho )/DZ;
+				Fr[n][m].w -= VISCISITY1*( U[n][m].w/U[n][m].rho - U[n][m-1].w/U[n][m-1].rho )/DR;
+				Fz[n][m].w -= 2*VISCISITY1*( U[n][m].w/U[n][m].rho - U[n][m-1].w/U[n][m-1].rho )/DZ;
 			}
 		}
 
@@ -175,11 +172,9 @@ void step(FullVec **U)
 			{
 				FullVec RADl, RADr;
 				RADl = Fr[n][m]*gR[n]; RADr = Fr[n+1][m]*gR[n+1];
-				//cout << n << ' ' << RADl.u << ' ' << RADr.u << endl;
 
 				RHS = ( RADr-RADl )*( 2/(gR[n+1]+gR[n]) )*(DT/DR);
 				U[n][m] = U[n][m] - RHS;
-				//cout << fixed << setprecision(wide) << RHS.u << endl;
 
 				FullVec GeomSource;
 				double Ptotal = (GAMMA-1)*( U[n][m].e -0.5*U[n][m].Vsq()/U[n][m].rho -0.5*U[n][m].Bsq() ) +0.5*U[n][m].Bsq();
@@ -190,7 +185,6 @@ void step(FullVec **U)
 				GeomSource.setVec(0, Vx,Vy,0, 0,By,0, 0);
 				GeomSource = GeomSource*( 2/(gR[n+1]+gR[n]) )*DT;
 				U[n][m] = U[n][m] + GeomSource;
-				//cout << fixed << setprecision(wide) << GeomSource.u << endl;
 			}
 		#endif
 
