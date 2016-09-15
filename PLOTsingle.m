@@ -1,5 +1,5 @@
 function PLOTsingle = PLOTsingle(type,gridX,gridY,RESULT,Time)
-    set(0,'DefaultAxesFontSize',14,'DefaultAxesFontName','Times New Roman');
+    set(0,'DefaultAxesFontSize',10,'DefaultAxesFontName','Times New Roman');
     [x,y] = meshgrid(gridX,gridY);
 
     name = {'n', 'Vr', 'Vphi', 'Vz', 'Br', 'Bphi', 'Bz', 'T'};

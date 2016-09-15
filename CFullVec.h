@@ -14,6 +14,7 @@ public:
 	double Vsq();
 	double Bsq();
 	double VBsq();
+	double getT();
 
 	double P();
 	double Ptot();

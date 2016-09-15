@@ -119,6 +119,20 @@ void step(FullVec **U)
 	FullVec **Fz = new FullVec * [NR+1];
 	for(int n=0; n<NR+1; n++) Fz[n] = new FullVec [NZ+1];
 
+
+			// Stephan-Bolzman radiation
+			double Lamda[NR+2][NZ+1];
+			for(int n=1; n<=NR; n++)
+			{
+				for(int m=1; m<=NZ; m++)
+				{
+					Lamda[n][m] = SteBolz*(U[n][m].getT()*U[n][m].getT())*2*(1/DZ + 1/DR);
+					//cout << "SB " << Lamda[n][m] << endl;
+					//U[n][m].e += Lamda*DT;
+				}
+			}
+
+
 	int n(0), m(0);
 #pragma omp parallel for shared(U,Fr,Fz) private(n,m)
 	for(m=1; m<=NZ; m++)
@@ -188,8 +202,11 @@ void step(FullVec **U)
 			}
 		#endif
 
+
 			RHS = ( Fz[n][m+1]-Fz[n][m] )*(DT/DZ);
 			U[n][m] = U[n][m] - RHS; 
+
+			U[n][m].e += Lamda[n][m]*DT;
 
 		}
 	}	

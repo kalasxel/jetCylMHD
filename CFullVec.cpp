@@ -130,6 +130,13 @@ FullVec FullVec::operator*(double t)
 }}
 
 
+double FullVec::getT()
+{{
+	return (GAMMA-1)*(Mnuclon/rho)*( e - rho*( (u/rho)*(u/rho)+(v/rho)*(v/rho)+(w/rho)*(w/rho))/2
+				 - Bsq()/2 )/Boltz ;
+}}
+
+
 double FullVec::returnVecT(int type)
 {{
 	switch(type)
@@ -149,7 +156,7 @@ double FullVec::returnVecT(int type)
 		case 6:
 			return D*sqrt(4*PI); break;
 		case 7:
-			return (GAMMA-1)/(rho/Mnuclon)*( e - Vsq()/(2*rho) - Bsq()/2 )/eVtoErg ; break;
+			return getT(); break;
 		default:
 			cout << "AN ERROR IN PRINT" << endl; 
 			return 0;

@@ -1,7 +1,9 @@
 function PLOTall = PLOTall(type1,type2,type3,type4,gridX,gridY,RESULT,Time)
 
 
-    set(0,'DefaultAxesFontSize',18,'DefaultAxesFontName','Times New Roman');
+    nbLevels = 10;
+
+    set(0,'DefaultAxesFontSize',10,'DefaultAxesFontName','Times New Roman');
     [x,y] = meshgrid(gridX,gridY);
 
     name = {'n', 'Vr', 'Vphi', 'Vz', 'Br', 'Bphi', 'Bz', 'T'};
@@ -21,7 +23,7 @@ function PLOTall = PLOTall(type1,type2,type3,type4,gridX,gridY,RESULT,Time)
         subplot(2,2,1)
         type=type1;
             z = squeeze(RESULT(type,k,:,:));
-            contourf(x,y,z,10,'LineColor','none');
+            contourf(x,y,z,nbLevels,'LineColor','none');
         hold on
         colorbar
         title(name(type))
@@ -33,7 +35,7 @@ function PLOTall = PLOTall(type1,type2,type3,type4,gridX,gridY,RESULT,Time)
         subplot(2,2,2)
         type=type2;
             z = squeeze(RESULT(type,k,:,:));
-            contourf(x,y,z,10,'LineColor','none');
+            contourf(x,y,z,nbLevels,'LineColor','none');
         hold on
         colorbar
         title(name(type))
@@ -45,7 +47,7 @@ function PLOTall = PLOTall(type1,type2,type3,type4,gridX,gridY,RESULT,Time)
         subplot(2,2,3)
         type=type3;
             z = squeeze(RESULT(type,k,:,:));
-            contourf(x,y,z,10,'LineColor','none');
+            contourf(x,y,z,nbLevels,'LineColor','none');
         hold on
         colorbar
         title(name(type))
@@ -57,7 +59,7 @@ function PLOTall = PLOTall(type1,type2,type3,type4,gridX,gridY,RESULT,Time)
         subplot(2,2,4)
         type=type4;
             z = squeeze(RESULT(type,k,:,:));
-            contourf(x,y,z,10,'LineColor','none');
+            contourf(x,y,z,nbLevels,'LineColor','none');
         hold on
         colorbar
         title(name(type))
@@ -69,9 +71,9 @@ function PLOTall = PLOTall(type1,type2,type3,type4,gridX,gridY,RESULT,Time)
         
         M(k)=getframe(gcf);
 
-%          pause(0.01)
+         pause(0.01)
         pause()
 
     end
-movie2avi(M,'test.avi');
+% movie2avi(M,'test.avi');
 end
